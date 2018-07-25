@@ -9,12 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ETLTask extends Task{
 
-  private ETLDockerContainer etl;
+  private final ETLDockerContainer etl;
 
-  public ETLTask(String id, String release) throws Exception {
+  public ETLTask(String id, String release, ETLDockerContainer etl) throws Exception {
     super(id, release);
-
-    etl = new ETLDockerContainer();
+    this.etl = etl;
   }
 
   @Override
@@ -23,7 +22,7 @@ public class ETLTask extends Task{
 
     try {
 
-      etl.startContainer();
+      etl.createContainer();
 
       this.stateMachine.sendEvent(TaskFSMEvents.INITIALIZE);
       log.info(String.format("ETL Task [%s] -> PENDING.", this.id));

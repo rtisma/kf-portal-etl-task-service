@@ -16,19 +16,35 @@
 
 package io.kf.coordinator;
 
+import io.kf.coordinator.task.etl.ETLDockerContainer;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
+@Slf4j
 public class ETLCoordinatorTaskMainTests {
 
   @Test
   public void contextLoads() {
     // Passes if application starts
     assert(true);
+  }
+
+  @Test
+  @SneakyThrows
+  public void testRob(){
+    val dockerFilePath = "/home/rtisma/Documents/workspace/kf-portal-etl/docker/etl/Dockerfile";
+    val studyId = "sdfsfd1";
+    val releaseNum = "RL_00000001";
+    val etl = new ETLDockerContainer(dockerFilePath,studyId,releaseNum);
+    etl.createContainer();
+    etl.runETL();
+    etl.isComplete();
+    log.info("sdf");
+
   }
 
 }
